@@ -23,7 +23,7 @@ resource "aws_internet_gateway" "igw-dev" {
 resource "aws_subnet" "public-subnet-1" {
   vpc_id            = aws_vpc.vpc-dev.id
   cidr_block        = "10.32.100.0/24"
-  availability_zone = "us-west-2a"
+  availability_zone = "eu-central-1b"
   map_public_ip_on_launch= "true"
   tags = {
     Name = "public-subnet-1"
@@ -105,12 +105,12 @@ resource "aws_network_interface" "wordpress-able-nic" {
 #   depends_on                = [aws_internet_gateway.igw-dev]
 # }
 
-# # 9. Create Ubuntu server
-resource "aws_instance" "wrodpress-able" {
-  ami               = "ami-05134c8ef96964280" # Ubuntu 24.04
+# # 9. Create Linux2 server
+resource "aws_instance" "wordpress-able" {
+  ami               = "ami-00f07845aed8c0ee7" 
   instance_type     = "t2.micro"
-  availability_zone = "us-west-2a"
-  key_name          = "vockey"
+  availability_zone = "eu-central-1b"
+  key_name          = "naeime-macbook"
   network_interface {
     network_interface_id = aws_network_interface.wordpress-able-nic.id
     device_index = 0
