@@ -1,17 +1,17 @@
 
 # # 1. Create vpc
-resource "aws_vpc" "vpc-dev" {
+resource "aws_vpc" "wordpress-vpc" {
   cidr_block = "10.32.0.0/16"
 
   tags = {
-    Name = "vpc-dev"
+    Name = "wordpress-vpc"
   }
 }
 
 # # 2. Create Internet Gateway
 
 resource "aws_internet_gateway" "igw-dev" {
-  vpc_id = aws_vpc.vpc-dev.id
+  vpc_id = aws_vpc.wordpress-vpc.id
   tags = {
     Name = "IGW-Dev"
   }
@@ -21,7 +21,7 @@ resource "aws_internet_gateway" "igw-dev" {
 
 # # 4. Create a Subnet 
 resource "aws_subnet" "public-subnet-1" {
-  vpc_id            = aws_vpc.vpc-dev.id
+  vpc_id            = aws_vpc.wordpress-vpc.id
   cidr_block        = "10.32.100.0/24"
   availability_zone = "eu-central-1b"
   map_public_ip_on_launch= "true"
@@ -31,17 +31,37 @@ resource "aws_subnet" "public-subnet-1" {
 }
 
 resource "aws_subnet" "public-subnet-2" {
-  vpc_id            = aws_vpc.vpc-dev.id
+  vpc_id            = aws_vpc.wordpress-vpc.id
   cidr_block        = "10.32.101.0/24"
   availability_zone = "eu-central-1b"
   map_public_ip_on_launch= "true"
   tags = {
-    Name = "public-subnet-2"
+    Name = "public-subnet-"
   }
 }
+
+resource "aws_subnet" "private-subnet-1" {
+  vpc_id            = aws_vpc.wordpress-vpc.id
+  cidr_block        = "10.32.10.0/24"
+  availability_zone = "eu-central-1b"
+  tags = {
+    Name = "private-subnet-1"
+  }
+}
+
+resource "aws_subnet" "private-subnet-2" {
+  vpc_id            = aws_vpc.wordpress-vpc.id
+  cidr_block        = "10.32.11.0/24"
+  availability_zone = "eu-central-1b"
+  tags = {
+    Name = "private-subnet-1"
+  }
+}
+
+
 # # 3. Create Custom Route Table
 resource "aws_route_table" "dev-route-table" {
-  vpc_id = aws_vpc.vpc-dev.id
+  vpc_id = aws_vpc.wordpress-vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -63,7 +83,7 @@ resource "aws_route_table_association" "a" {
 resource "aws_security_group" "allow_web" {
   name        = "allow_web_traffic"
   description = "Allow Web inbound traffic"
-  vpc_id      = aws_vpc.vpc-dev.id
+  vpc_id      = aws_vpc.wordpress-vpc.id
 
   ingress {
     description = "HTTPS"
@@ -136,6 +156,6 @@ resource "aws_instance" "wordpress-able" {
                   cd /tmp && wget https://wordpress.org/latest.tar.gz
                   EOF
   tags = {
-    Name = "wordpress-able"
+    Name = "wordpress-instance-able"
   }
 }
