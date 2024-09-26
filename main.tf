@@ -29,6 +29,16 @@ resource "aws_subnet" "public-subnet-1" {
     Name = "public-subnet-1"
   }
 }
+
+resource "aws_subnet" "public-subnet-2" {
+  vpc_id            = aws_vpc.vpc-dev.id
+  cidr_block        = "10.32.101.0/24"
+  availability_zone = "eu-central-1b"
+  map_public_ip_on_launch= "true"
+  tags = {
+    Name = "public-subnet-2"
+  }
+}
 # # 3. Create Custom Route Table
 resource "aws_route_table" "dev-route-table" {
   vpc_id = aws_vpc.vpc-dev.id
@@ -120,11 +130,10 @@ resource "aws_instance" "wordpress-able" {
     user_data = <<-EOF
                   #!/bin/bash
                   sudo apt update -y
-                  sudo apt install mysql nginx php php-mysql -y
+                  sudo apt install mysql nginx php php-mysql php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip -y
                   sudo systemctl start mysql
                   sudo systemctl start nginx
                   cd /tmp && wget https://wordpress.org/latest.tar.gz
-                  sudo bash -c 'echo your very first web server > /var/www/html/index.html'
                   EOF
   tags = {
     Name = "wordpress-able"
