@@ -10,7 +10,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
 # Create a Security Group for RDS
 resource "aws_security_group" "rds_sg" {
-  vpc_id = aws_vpc.wordpress_vpc.id
+  vpc_id = aws_vpc.wordpress-vpc.id
 
   ingress {
     from_port   = 3306
@@ -40,10 +40,12 @@ resource "aws_db_instance" "wordpress_rds" {
   identifier           = "wordpress-db"
 #   name                 = "wordpress"
   username             = "wp_user"
-  password             = "Salam"  # Change this to a secure password
+  password             = "Salam745"  # Change this to a secure password
   parameter_group_name = "default.mysql8.0"
   multi_az             = true
   storage_type         = "gp2"
+  backup_retention_period = 0
+  skip_final_snapshot = true
   publicly_accessible  = false
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name = aws_db_subnet_group.rds_subnet_group.name
