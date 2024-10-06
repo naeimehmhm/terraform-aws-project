@@ -84,18 +84,18 @@ resource "aws_route_table_association" "public_assoc_az2" {
 
 
 
-# # # 5 Create NAT gateway
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
+# # # # 5 Create NAT gateway
+# resource "aws_eip" "nat" {
+#   domain = "vpc"
+# }
 
-resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public-subnet-1.id
-  tags = {
-    Name = "nat-gateway"
-  }
-}
+# resource "aws_nat_gateway" "nat" {
+#   allocation_id = aws_eip.nat.id
+#   subnet_id     = aws_subnet.public-subnet-1.id
+#   tags = {
+#     Name = "nat-gateway"
+#   }
+# }
 
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.wordpress-vpc.id
