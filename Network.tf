@@ -84,18 +84,18 @@ resource "aws_route_table_association" "public_assoc_az2" {
 
 
 
-# # # # 5 Create NAT gateway
-# resource "aws_eip" "nat" {
-#   domain = "vpc"
-# }
+# # # 5 Create NAT gateway
+resource "aws_eip" "nat" {
+  domain = "vpc"
+}
 
-# resource "aws_nat_gateway" "nat" {
-#   allocation_id = aws_eip.nat.id
-#   subnet_id     = aws_subnet.public-subnet-1.id
-#   tags = {
-#     Name = "nat-gateway"
-#   }
-# }
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public-subnet-1.id
+  tags = {
+    Name = "nat-gateway"
+  }
+}
 
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.wordpress-vpc.id
@@ -104,12 +104,12 @@ resource "aws_route_table" "private_rt" {
   }
 }
 
-# # Create a route for private subnets to the NAT Gateway for outbound internet access
-# resource "aws_route" "private_route" {
-#   route_table_id         = aws_route_table.private_rt.id
-#   destination_cidr_block = "0.0.0.0/0"
-#   nat_gateway_id         = aws_nat_gateway.nat.id
-# }
+# Create a route for private subnets to the NAT Gateway for outbound internet access
+resource "aws_route" "private_route" {
+  route_table_id         = aws_route_table.private_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nat.id
+}
 
 # Associate the private route table with private subnets in both AZs
 resource "aws_route_table_association" "private_assoc_az1" {

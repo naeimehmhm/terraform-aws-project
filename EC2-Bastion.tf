@@ -29,8 +29,8 @@ resource "aws_security_group" "allow_bastion" {
 
 # # 7. Create a network interface with an ip in the subnet that was created in step 4
 resource "aws_network_interface" "bastion-able-nic" {
-  subnet_id       = aws_subnet.private-subnet-1.id
-  private_ips     = ["10.32.10.12"]
+  subnet_id       = aws_subnet.public-subnet-1.id
+  private_ips     = ["10.32.100.12"]
   security_groups = [aws_security_group.allow_bastion.id]
 
 }
@@ -38,7 +38,7 @@ resource "aws_network_interface" "bastion-able-nic" {
 # # 8. Assign an elastic IP to the network interface created in step 7
 resource "aws_eip" "one" {
   network_interface         = aws_network_interface.bastion-able-nic.id
-  associate_with_private_ip = "10.32.10.12"
+  associate_with_private_ip = "10.32.100.12"
   depends_on                = [aws_internet_gateway.wordpress-IGW]
 }
 
