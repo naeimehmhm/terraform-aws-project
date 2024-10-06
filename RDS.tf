@@ -31,26 +31,26 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-# Create an RDS MySQL Instance (Multi-AZ)
-resource "aws_db_instance" "wordpress_rds" {
-  allocated_storage    = 20
-  engine               = "mysql"
-  engine_version       = "8.0"
-  instance_class       = "db.t3.micro"
-  identifier           = "wordpress-db"
-#   name                 = "wordpress"
-  username             = "wp_user"
-  password             = "Salam745"  # Change this to a secure password
-  parameter_group_name = "default.mysql8.0"
-  multi_az             = true
-  storage_type         = "gp2"
-  backup_retention_period = 0
-  skip_final_snapshot = true
-  publicly_accessible  = false
-  vpc_security_group_ids = [aws_security_group.rds_sg.id]
-  db_subnet_group_name = aws_db_subnet_group.rds_subnet_group.name
+# # Create an RDS MySQL Instance (Multi-AZ)
+# resource "aws_db_instance" "wordpress_rds" {
+#   allocated_storage    = 20
+#   engine               = "mysql"
+#   engine_version       = "8.0"
+#   instance_class       = "db.t3.micro"
+#   identifier           = "wordpress-db"
+# #   name                 = "wordpress"
+#   username             = "wp_user"
+#   password             = "Salam745"  # Change this to a secure password
+#   parameter_group_name = "default.mysql8.0"
+#   multi_az             = true
+#   storage_type         = "gp2"
+#   backup_retention_period = 0
+#   skip_final_snapshot = true
+#   publicly_accessible  = false
+#   vpc_security_group_ids = [aws_security_group.rds_sg.id]
+#   db_subnet_group_name = aws_db_subnet_group.rds_subnet_group.name
 
-  tags = {
-    Name = "wordpress-rds"
-  }
-}
+#   tags = {
+#     Name = "wordpress-rds"
+#   }
+# }

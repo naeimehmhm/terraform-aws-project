@@ -44,19 +44,11 @@ resource "aws_security_group" "allow_web" {
 
 # # 7. Create a network interface with an ip in the subnet that was created in step 4
 resource "aws_network_interface" "wordpress-able-nic" {
-  subnet_id       = aws_subnet.public-subnet-1.id
-  private_ips     = ["10.32.100.11"]
+  subnet_id       = aws_subnet.private-subnet-1.id
+  private_ips     = ["10.32.10.11"]
   security_groups = [aws_security_group.allow_web.id]
 
 }
-
-# # 8. Assign an elastic IP to the network interface created in step 7
-resource "aws_eip" "one" {
-  network_interface         = aws_network_interface.wordpress-able-nic.id
-  associate_with_private_ip = "10.32.100.11"
-  depends_on                = [aws_internet_gateway.wordpress-IGW]
-}
-
 
 
 # # 9. Create Linux2 server
