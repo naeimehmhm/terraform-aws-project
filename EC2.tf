@@ -43,19 +43,16 @@ resource "aws_security_group" "allow_web" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = {
     Name = "allow_wordpress_web"
   }
 }
-
 
 # # 7. Create a network interface with an ip in the subnet that was created in step 4
 resource "aws_network_interface" "wordpress-able-nic" {
   subnet_id       = aws_subnet.private-subnet-1.id
   private_ips     = ["10.32.10.11"]
   security_groups = [aws_security_group.allow_web.id]
-
 }
 
 
@@ -89,7 +86,6 @@ resource "aws_instance" "wordpress-able" {
                 #   systemctl start mariadb
                 #   systemctl enable mariadb
                   
-
                 #   # Set up WordPress database
                 #   mysql -e "CREATE DATABASE wordpress;"
                 #   mysql -e "CREATE USER 'wp_user'@'localhost' IDENTIFIED BY 'Salam';"
@@ -110,6 +106,7 @@ resource "aws_instance" "wordpress-able" {
                   sed -i 's/database_name_here/wordpress/' /var/www/html/wp-config.php
                   sed -i 's/username_here/wp_user/' /var/www/html/wp-config.php
                   sed -i 's/password_here/Salam745/' /var/www/html/wp-config.php
+                  sed -i "s/localhost/${aws_db_instance.wordpress_rds.endpoint}/" /var/www/html/wp-config.php
 
                   systemctl restart httpd
                   EOF

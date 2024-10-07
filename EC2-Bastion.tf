@@ -53,7 +53,6 @@ resource "aws_instance" "bastion-able" {
   network_interface {
     network_interface_id = aws_network_interface.bastion-able-nic.id
     device_index = 0
-
   }
 
   tags = {
