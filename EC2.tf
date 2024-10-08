@@ -71,18 +71,18 @@ resource "aws_instance" "wordpress-able" {
     user_data = <<-EOF
                   #!/bin/bash
                   yum update -y
-                  yum install -y httpd php php-mysqlnd php-fpm php-json
+                  yum install -y httpd php php-mysqlnd php-fpm php-json telnet net-tools
                   systemctl start httpd
                   systemctl enable httpd
 
-                #   # Install MySQL and set up database
-                #   touch /etc/yum.repos.d/MariaDB.repo
-                #   echo "[mariadb]" >> /etc/yum.repos.d/MariaDB.repo
-                #   echo "name=MariaDB" >>  /etc/yum.repos.d/MariaDB.repo
-                #   echo "baseurl=https://mirror.mariadb.org/yum/11.6/rhel/9Server/x86_64/" >> /etc/yum.repos.d/MariaDB.repo
-                #   echo "gpgkey=https://rpm.mariadb.org/RPM-GPG-KEY-MariaDB" >>  /etc/yum.repos.d/MariaDB.repo
-                #   echo "gpgcheck=1" >>  /etc/yum.repos.d/MariaDB.repo
-                #   yum install -y mariadb-server
+                  # Install MySQL and set up database
+                  touch /etc/yum.repos.d/MariaDB.repo
+                  echo "[mariadb]" >> /etc/yum.repos.d/MariaDB.repo
+                  echo "name=MariaDB" >>  /etc/yum.repos.d/MariaDB.repo
+                  echo "baseurl=https://mirror.mariadb.org/yum/11.6/rhel/9Server/x86_64/" >> /etc/yum.repos.d/MariaDB.repo
+                  echo "gpgkey=https://rpm.mariadb.org/RPM-GPG-KEY-MariaDB" >>  /etc/yum.repos.d/MariaDB.repo
+                  echo "gpgcheck=1" >>  /etc/yum.repos.d/MariaDB.repo
+                  yum install -y mariadb-server 
                 #   systemctl start mariadb
                 #   systemctl enable mariadb
                   
@@ -106,7 +106,7 @@ resource "aws_instance" "wordpress-able" {
                   sed -i 's/database_name_here/wordpress/' /var/www/html/wp-config.php
                   sed -i 's/username_here/wp_user/' /var/www/html/wp-config.php
                   sed -i 's/password_here/Salam745/' /var/www/html/wp-config.php
-                  sed -i "s/localhost/${aws_db_instance.wordpress_rds.endpoint}/" /var/www/html/wp-config.php
+                  sed -i "s/localhost/${aws_db_instance.wordpress_rds.address}/" /var/www/html/wp-config.php
 
                   systemctl restart httpd
                   EOF
