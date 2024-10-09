@@ -30,5 +30,5 @@ cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 sed -i 's/database_name_here/wordpress/' /var/www/html/wp-config.php
 sed -i 's/username_here/admin/' /var/www/html/wp-config.php
 sed -i 's/password_here/Salam745/' /var/www/html/wp-config.php
-sed -i "s/localhost/${aws_db_instance.wordpress_rds.address}/" /var/www/html/wp-config.php
+sed -i 's/localhost/${aws_db_instance.wordpress_rds.address}/' /var/www/html/wp-config.php
 systemctl restart httpd

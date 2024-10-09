@@ -69,12 +69,14 @@ resource "aws_instance" "bastion-able" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("/Users/naeimeh/.ssh/naeime-macbook.pem")
+      private_key = file("/Users/naeimeh/.ssh/id_rsa.pem")
       host         = self.public_ip
   }
   }
+
   user_data =  file("${path.module}/instance-files/bastion.sh") 
   tags = {
     Name = "bastion-instance-able"
   }
+
 }

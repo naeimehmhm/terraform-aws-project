@@ -10,4 +10,5 @@ echo "gpgkey=https://rpm.mariadb.org/RPM-GPG-KEY-MariaDB" >>  /etc/yum.repos.d/M
 echo "gpgcheck=1" >>  /etc/yum.repos.d/MariaDB.repo
 yum install -y mariadb-server 
 chmod 600 /home/ec2-user/.ssh/key.pem
-sudo chown ec2-user:ec2-user /home/ec2-user/.ssh/key.pem
+chown ec2-user:ec2-user /home/ec2-user/.ssh/key.pem
+sed -i 's/#   StrictHostKeyChecking ask/   StrictHostKeyChecking no/' /etc/ssh/ssh_config
