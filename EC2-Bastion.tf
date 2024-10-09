@@ -63,6 +63,8 @@ resource "aws_instance" "bastion-able" {
     device_index = 0
   }
 
+
+    user_data =  file("${path.module}/bastion.sh") 
   tags = {
     Name = "bastion-instance-able"
   }
