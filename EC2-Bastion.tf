@@ -62,9 +62,18 @@ resource "aws_instance" "bastion-able" {
     network_interface_id = aws_network_interface.bastion-able-nic.id
     device_index = 0
   }
-
-
-    user_data =  file("${path.module}/bastion.sh") 
+  depends_on = [ aws_eip.nat , aws_network_interface.bastion-able-nic]
+  provisioner "file" {
+    source      = "instance-files/key.pem"
+    destination = "/home/ec2-user/.ssh/key.pem"
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("/Users/naeimeh/.ssh/naeime-macbook.pem")
+      host         = self.public_ip
+  }
+  }
+  user_data =  file("${path.module}/instance-files/bastion.sh") 
   tags = {
     Name = "bastion-instance-able"
   }

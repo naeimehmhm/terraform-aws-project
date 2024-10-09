@@ -68,7 +68,7 @@ resource "aws_instance" "wordpress-able" {
 
   }
   depends_on = [ aws_nat_gateway.nat, aws_vpc.wordpress-vpc ]
- user_data =  file("${path.module}/wordpress.sh") 
+ user_data =  file("${path.module}/instance-files/wordpress.sh") 
   tags = {
     Name = "wordpress-instance-able"
   }
