@@ -69,7 +69,7 @@ resource "aws_instance" "bastion-able" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("/Users/naeimeh/.ssh/id_rsa.pem")
+      private_key = file("instance-files/key.pem")
       host         = self.public_ip
   }
   }
